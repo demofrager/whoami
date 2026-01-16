@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}whoami{% endblock %}</title>
+    <meta
+      name="description"
+      content="A living roadmap of what I am doing and a venting section for blogs."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="glow glow-top"></div>
+    <div class="glow glow-bottom"></div>
+
+    <header class="hero {% block hero_class %}{% endblock %}">
+      <div class="hero-inner">
+        <p class="eyebrow">demofager</p>
+        {% block hero %}{% endblock %}
+        <nav class="hero-actions">
+          <a class="btn" href="{{ url_for('index') }}#roadmap">Roadmap</a>
+          <a class="btn ghost" href="{{ github_url }}" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <p>Last updated: now. Check back for new drops.</p>
+    </footer>
+  </body>
+</html>

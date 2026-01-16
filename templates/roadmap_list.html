@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}whoami - Roadmap{% endblock %}
+
+{% block hero %}
+  <h1>
+    Roadmap.
+    <span>Deliverables in motion.</span>
+  </h1>
+  <p class="lead">
+    Every roadmap item is a Markdown file. Track status, deadline, and progress
+    here.
+  </p>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="section-header">
+      <h2>All Deliverables</h2>
+      <p>Each entry links to the full roadmap detail.</p>
+    </div>
+    <div class="venting-grid">
+      {% if entries %}
+        {% for entry in entries %}
+          <article class="card ghost-card {{ entry.status_class }}">
+            <div class="card-header">
+              <span class="status">{{ entry.status }}</span>
+              <h3>{{ entry.title }}</h3>
+            </div>
+            {% if entry.progress is not none %}
+              <div class="progress-row">
+                <span>Progress</span>
+                <span>{{ entry.progress }}%</span>
+              </div>
+              <div class="progress-bar">
+                <span style="width: {{ entry.progress }}%"></span>
+              </div>
+            {% endif %}
+            {% if entry.deadline %}
+              <span class="tag">Deadline: {{ entry.deadline }}</span>
+            {% endif %}
+            <p>{{ entry.excerpt }}</p>
+            <a class="text-link" href="{{ url_for('roadmap_post', slug=entry.slug) }}">
+              Read more
+            </a>
+          </article>
+        {% endfor %}
+      {% else %}
+        <article class="card ghost-card">
+          <h3>No roadmap items yet</h3>
+          <p>Add Markdown files to the roadmap folder to populate this section.</p>
+          <span class="tag">Waiting</span>
+        </article>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

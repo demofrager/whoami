@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}whoami - Roadmap + Venting{% endblock %}
+
+{% block hero %}
+  <h1>
+    Building in public.
+    <span>Shipping out loud.</span>
+  </h1>
+  <p class="lead">
+    A living roadmap of what I am doing right now, plus a home for the venting
+    section. Short, honest, and easy to scan.
+  </p>
+{% endblock %}
+
+{% block content %}
+  <section id="roadmap" class="section">
+    <div class="section-header">
+      <h2>Roadmap</h2>
+      <p>
+        The current focus areas, from discovery to shipped. This list will evolve
+        as I learn and pivot.
+      </p>
+      <a class="text-link" href="{{ url_for('roadmap_list') }}">View all roadmap</a>
+    </div>
+    <div class="timeline">
+      {% if roadmap_entries %}
+        {% for entry in roadmap_entries %}
+          <article class="card {{ entry.status_class }}">
+            <div class="card-header">
+              <span class="status">{{ entry.status }}</span>
+              <h3>{{ entry.title }}</h3>
+            </div>
+            {% if entry.progress is not none %}
+              <div class="progress-row">
+                <span>Progress</span>
+                <span>{{ entry.progress }}%</span>
+              </div>
+              <div class="progress-bar">
+                <span style="width: {{ entry.progress }}%"></span>
+              </div>
+            {% endif %}
+            {% if entry.deadline %}
+              <span class="tag">Deadline: {{ entry.deadline }}</span>
+            {% endif %}
+            {{ entry.content_html | safe }}
+            <a class="text-link" href="{{ url_for('roadmap_post', slug=entry.slug) }}">
+              Read more
+            </a>
+          </article>
+        {% endfor %}
+      {% else %}
+        <article class="card status-now">
+          <div class="card-header">
+            <span class="status">Now</span>
+            <h3>Roadmap Coming Soon</h3>
+          </div>
+          <p>Add entries to the roadmap folder to show progress here.</p>
+        </article>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>The stories, The rants, and The memes</h2>
+      <p>
+        Latest updates from the venting section. Use this space for raw thoughts
+        and lessons.
+      </p>
+    </div>
+    <div class="venting-grid">
+      {% if posts %}
+        {% for post in posts %}
+          <article class="card ghost-card">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.excerpt }}</p>
+            <a class="text-link" href="{{ url_for('venting_post', slug=post.slug) }}">
+              Read more
+            </a>
+          </article>
+        {% endfor %}
+      {% else %}
+        <article class="card ghost-card">
+          <h3>Coming Soon</h3>
+          <p>First post: the mess between an idea and a shipped thing.</p>
+          <span class="tag">Drafting</span>
+        </article>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}whoami - {{ post.title }}{% endblock %}
+
+{% block hero_class %}hero-compact{% endblock %}
+
+{% block hero %}
+  <h1>
+    {{ post.title }}
+    <span>
+      {% if post.published_at %}
+        Published {{ post.published_at.strftime("%b %d, %Y") }} •
+      {% endif %}
+      Updated {{ post.updated_at.strftime("%b %d, %Y") }}
+    </span>
+  </h1>
+  <p class="lead">
+    Part of the venting section. Written in Markdown and rendered here.
+  </p>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <article class="card post-body">
+      {{ post.content_html | safe }}
+    </article>
+    <div class="post-back">
+      <a class="text-link" href="{{ url_for('venting_list') }}">Back to all posts</a>
+    </div>
+  </section>
+{% endblock %}

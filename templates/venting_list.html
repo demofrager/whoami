@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}whoami - Venting{% endblock %}
+
+{% block hero %}
+  <h1>
+    Venting section.
+    <span>Unfiltered notes.</span>
+  </h1>
+  <p class="lead">
+    The blog lives here. Each entry starts as a draft, then gets polished when the
+    lessons stick.
+  </p>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="section-header">
+      <h2>All Posts</h2>
+      <p>Markdown posts from the venting section.</p>
+    </div>
+    <div class="venting-grid">
+      {% if posts %}
+        {% for post in posts %}
+          <article class="card ghost-card">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.excerpt }}</p>
+            <a class="text-link" href="{{ url_for('venting_post', slug=post.slug) }}">
+              Read more
+            </a>
+          </article>
+        {% endfor %}
+      {% else %}
+        <article class="card ghost-card">
+          <h3>No posts yet</h3>
+          <p>Add Markdown files to the blogs folder to populate this section.</p>
+          <span class="tag">Waiting</span>
+        </article>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
