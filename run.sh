@@ -8,6 +8,7 @@ APP_NAME="$(basename "$SCRIPT_DIR")"
 
 IMAGE="registry.plsdontspam.me/$APP_NAME"
 TAG="latest"
+NAMESPACE="web"
 
 usage() {
   cat <<'USAGE'
@@ -18,6 +19,8 @@ Commands:
   push         Push the Docker image to the registry
   run_homelab  Run the container on proxynet (host port 5001 -> container 5000)
   run_local    Run the Flask app locally
+  apply          Apply the Kubernetes manifests
+  delete         Delete the Kubernetes manifests (and associated resources)
 USAGE
 }
 
@@ -34,6 +37,12 @@ case "$cmd" in
     ;;
   run_local)
     FLASK_APP=app.py python -m flask run
+    ;;
+  apply)
+    kubectl apply -n "$NAMESPACE" -f "$SCRIPT_DIR/k8s"
+    ;;
+  delete)
+    kubectl delete -n "$NAMESPACE" -f "$SCRIPT_DIR/k8s"
     ;;
   -h|--help|help|"")
     usage
