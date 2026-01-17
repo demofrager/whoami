@@ -16,6 +16,7 @@ spec:
       containers:
         - name: whoami
           image: registry.plsdontspam.me/whoami:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
