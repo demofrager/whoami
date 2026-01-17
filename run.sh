@@ -3,7 +3,10 @@ set -eu
 
 # Note: These commands assume access to the local LAN registry at registry.plsdontspam.me.
 
-IMAGE="registry.plsdontspam.me/myapp"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+APP_NAME="$(basename "$SCRIPT_DIR")"
+
+IMAGE="registry.plsdontspam.me/$APP_NAME"
 TAG="latest"
 
 usage() {
