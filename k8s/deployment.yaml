@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: whoami
-          image: REPLACE_IMAGE
+          image: registry.plsdontspam.me/whoami:latest
           ports:
             - containerPort: 5000
           env:
