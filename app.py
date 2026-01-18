@@ -100,6 +100,57 @@ def _extract_excerpt(body_text: str) -> str:
     return ""
 
 
+def _parse_deadline(deadline: str | None) -> datetime | None:
+    if not deadline:
+        return None
+    for parser in (
+        datetime.fromisoformat,
+        lambda value: datetime.strptime(value, "%Y-%m-%d"),
+        lambda value: datetime.strptime(value, "%Y/%m/%d"),
+    ):
+        try:
+            return parser(deadline)
+        except ValueError:
+            continue
+    return None
+
+
+def _status_rank(status: str) -> int:
+    return {
+        "now": 0,
+        "next": 1,
+        "later": 2,
+        "done": 3,
+    }.get(status.strip().lower(), 0)
+
+
+def _roadmap_sort_key(entry: RoadmapEntry) -> tuple[int, int, float, float]:
+    rank = _status_rank(entry.status)
+    deadline_dt = _parse_deadline(entry.deadline)
+    if deadline_dt is None:
+        return (rank, 1, float("inf"), -entry.updated_at.timestamp())
+    distance = abs((deadline_dt - datetime.now()).total_seconds())
+    return (rank, 0, distance, -entry.updated_at.timestamp())
+
+
+def _homepage_sort_key(entry: RoadmapEntry) -> tuple[int, int, float]:
+    progress = entry.progress if entry.progress is not None else -1
+    deadline_dt = _parse_deadline(entry.deadline)
+    if deadline_dt is None:
+        return (-progress, 1, float("inf"))
+    return (-progress, 0, deadline_dt.timestamp())
+
+
+def _select_homepage_entries(entries: list[RoadmapEntry]) -> list[RoadmapEntry]:
+    candidates = [
+        entry
+        for entry in entries
+        if entry.progress is not None and entry.progress < 100
+    ]
+    candidates.sort(key=_homepage_sort_key)
+    return candidates[:3]
+
+
 def _parse_roadmap_entry(
     md_text: str,
 ) -> tuple[str, str, str, str | None, int | None, str]:
@@ -194,7 +245,7 @@ def load_roadmap() -> list[RoadmapEntry]:
                 updated_at=datetime.fromtimestamp(md_path.stat().st_mtime),
             )
         )
-    entries.sort(key=lambda entry: entry.updated_at, reverse=True)
+    entries.sort(key=_roadmap_sort_key)
     return entries
 
 
@@ -251,7 +302,7 @@ def index():
     return render_template(
         "index.html",
         posts=posts[:3],
-        roadmap_entries=roadmap_entries[:3],
+        roadmap_entries=_select_homepage_entries(roadmap_entries),
     )
 
 
