@@ -25,10 +25,11 @@
         <p class="eyebrow">demofager</p>
         {% block hero %}{% endblock %}
         <nav class="hero-actions">
-          <a class="btn" href="{{ url_for('index') }}#roadmap">Roadmap</a>
-          <a class="btn ghost" href="{{ github_url }}" target="_blank" rel="noreferrer">
+          <a class="btn" href="{{ github_url }}" target="_blank" rel="noreferrer">
             GitHub
           </a>
+          <a class="btn ghost" href="{{ url_for('index') }}#roadmap">Roadmap</a>
+          <a class="btn ghost" href="{{ url_for('venting_list') }}">Blog</a>
         </nav>
       </div>
     </header>
@@ -38,6 +39,7 @@
     </main>
 
     <footer class="footer">
+      <p>Yes, the frontend was developed with AI because I don't have experience with html and css ;)</p>
       <p>Last updated: now. Check back for new drops.</p>
     </footer>
   </body>
