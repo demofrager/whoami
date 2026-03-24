@@ -1,7 +1,7 @@
 # CKAD Certification
 Status: Now
 Deadline: 2026-04-30
-Progress: 65
+Progress: 75
 
 Complete CKAD certification exam that shows advanced Developer knowledge for Kubernetes.
 
