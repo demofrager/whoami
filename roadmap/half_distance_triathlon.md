@@ -1,6 +1,6 @@
 # Half Distance Triathlon
-Status: Now
+Status: Done
 Deadline: 2026-06-31
-Progress: 60
+Progress: 100
 
 Complete a half distance Triathlon. 

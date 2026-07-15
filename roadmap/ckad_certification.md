@@ -1,8 +1,6 @@
 # CKAD Certification
 Status: Now
-Deadline: 2026-04-30
-Progress: 75
+Deadline: 2026-08-30
+Progress: 90
 
-Complete CKAD certification exam that shows advanced Developer knowledge for Kubernetes.
-
-https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
+Complete CKAD certification (Linux Foundation) exam that shows advanced Developer knowledge for Kubernetes.
